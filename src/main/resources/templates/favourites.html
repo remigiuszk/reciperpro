@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ReciperPRO</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href="../static/css/favouritesstyle.css" th:href="@{/css/favouritesstyle.css}" rel="stylesheet"/>
+    <a th:href="@{/redirectToMain}">
+    <img width="100%" height="200" src="../static/img/banerv2.png"
+         th:src="@{/img/banerv2.png}" alt="baner"/>
+    </a>
+</head>
+<body>
+<div class="navbar transparent navbar-inverse">
+    <div class="navbar-inner">
+        <nav id="navbar-main" class="navbar navbar-expand-lg navbar-dark">
+            <a class="navbar-brand" th:href="@{/redirectToMain}">ReciperPRO</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li id="navbar-item" class="nav-item"  >
+                        <a class="nav-link" th:href="@{/redirectToMain}">Search</a>
+                    </li>
+                    <li id="navbar-active" class="nav-item active">
+                        <a class="nav-link" th:href="@{/favourites}">Favourites <span class="sr-only">(current)</span></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>
+<div class="container" style="padding-top: 25px;">
+    <div class="row">
+        <div class="col">
+            <table class="table table-hover table-dark">
+                <tr>
+                    <th scope="col">Thumbnail</th>
+                    <th scope="col">Recipe title</th>
+                    <th scope="col">Ingredients</th>
+                </tr>
+                <tr th:each="result: ${favouritesList}">
+                    <td> <img th:src="${result.getThumbnail()}"> </td>
+                    <td th:text="${result.getTitle()}" />
+                    <td th:text="${result.getIngredients()}" />
+                    <td>
+                        <a>
+                            <a id="button-add-fav" class="btn btn-primary" th:href="${result.getHref()}" target="_blank">View recipe</a>
+                            <div id="button-delete-div">
+                            <a th:href="@{/favourites/delete/{id}(id=${result.getId()})}" onclick="return deleteConfirmation()">
+                                <button id="button-delete" type="submit" class="btn btn-danger">Delete from favourites</button>
+                            </a>
+                            </div>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col">
+            <div id="bg-text">
+            <h5 style="color: bisque" class="display-4" id="welcome-header">Your favourites page </h5>
+            <p style="color: bisque">Here you can look at your favourite recipes or delete them from the list. Treat this like your own recipe book!</p>
+        </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    function deleteConfirmation() {
+        return window.confirm("Are you sure you want to delete this Goal?");
+    }
+
+</script>
+</html>
